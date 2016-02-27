@@ -94,15 +94,16 @@ namespace Adam
         private GameWorld _gameWorld;
         private bool _hasQuacked;
         private BlendState _lightBlendState;
-        private RenderTarget2D _lightingRenderTarget;
         private LoadingScreen _loadingScreen;
         private RenderTarget2D _mainRenderTarget;
+        private RenderTarget2D _lightingRenderTarget;
         private Menu _menu;
         private Overlay _overlay;
         private SoundEffect _quack;
         private Thread _reloadThread;
         private Session _session;
         private Texture2D _splashDkd;
+        private Texture2D _previousSceneRenderTarget;
         public GameMode CurrentGameMode;
         //Defines the initial GameState ----- Use this variable to change the GameState
         public GameState CurrentGameState;
@@ -220,8 +221,8 @@ namespace Adam
                 GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24,
                 GraphicsDevice.PresentationParameters.MultiSampleCount, RenderTargetUsage.PreserveContents);
             _lightingRenderTarget = new RenderTarget2D(GraphicsDevice, DefaultResWidth, DefaultResHeight, false,
-                GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24,
-                GraphicsDevice.PresentationParameters.MultiSampleCount, RenderTargetUsage.PreserveContents);
+               GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24,
+               GraphicsDevice.PresentationParameters.MultiSampleCount, RenderTargetUsage.PreserveContents);
 
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -442,23 +443,23 @@ namespace Adam
             switch (CurrentGameState)
             {
                 case GameState.GameWorld:
-                    DrawToMainRenderTarget(_mainRenderTarget);
-
                     if (HasLighting)
                     {
                         DrawLightingRenderTarget(_lightingRenderTarget);
                     }
+
+                    DrawMainRenderTarget(_mainRenderTarget);
                     break;
                 case GameState.Cutscene:
-                    DrawToMainRenderTarget(_mainRenderTarget);
+                    DrawMainRenderTarget(_mainRenderTarget);
                     break;
                 case GameState.MainMenu:
-                    DrawToMainRenderTarget(_mainRenderTarget);
+                    DrawMainRenderTarget(_mainRenderTarget);
                     break;
             }
         }
 
-        protected void DrawToMainRenderTarget(RenderTarget2D renderTarget)
+        private void DrawMainRenderTarget(RenderTarget2D renderTarget)
         {
             //Change RenderTarget to this from the default
             GraphicsDevice.SetRenderTarget(renderTarget);
@@ -489,27 +490,40 @@ namespace Adam
                     if (!Player.IsDead)
                         Player.Draw(SpriteBatch);
                     _gameWorld.DrawParticles(SpriteBatch);
-
                     SpriteBatch.End();
 
+                    if (HasLighting)
+                    {
+                        SpriteBatch.Begin(SpriteSortMode.Deferred, _lightBlendState,
+                            GameData.Settings.DesiredSamplerState, DepthStencilState.None, RasterizerState.CullNone);
+                        SpriteBatch.Draw(_lightingRenderTarget, new Rectangle(0, 0, DefaultResWidth, DefaultResHeight),
+                            Color.White);
+                        SpriteBatch.End();
 
-                    //SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null,
-                    //    null, null);
-                    //_overlay.Draw(SpriteBatch);
-
-                    //if (!_gameWorld.LevelEditor.OnInventory)
-                    //    ObjectiveTracker.Draw(SpriteBatch);
-
-                    //_gameWorld.DrawUi(SpriteBatch);
-                    //Dialog.Draw(SpriteBatch);
-                    //TextInputBox.Draw(SpriteBatch);
-                    //MessageBox.Draw(SpriteBatch);
-
-                    //SpriteBatch.End();
+                        //SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, null, null,
+                        //null, Camera.Translate);
+                        //_gameWorld.DrawLights(SpriteBatch);
+                        //SpriteBatch.End();
+                    }
 
                     SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, null, null,
                         null, Camera.Translate);
                     _gameWorld.DrawGlows(SpriteBatch);
+                    SpriteBatch.End();
+
+                    var rs = new RasterizerState { ScissorTestEnable = true };
+                    SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null,
+                        rs);
+                    _overlay.Draw(SpriteBatch);
+
+                    if (!_gameWorld.LevelEditor.OnInventory)
+                        ObjectiveTracker.Draw(SpriteBatch);
+
+                    _gameWorld.DrawUi(SpriteBatch);
+                    Dialog.Draw(SpriteBatch);
+                    TextInputBox.Draw(SpriteBatch);
+                    MessageBox.Draw(SpriteBatch);
+
                     SpriteBatch.End();
                     break;
             }
@@ -518,7 +532,7 @@ namespace Adam
             GraphicsDevice.SetRenderTarget(null);
         }
 
-        protected void DrawLightingRenderTarget(RenderTarget2D renderTarget)
+        private void DrawLightingRenderTarget(RenderTarget2D renderTarget)
         {
             //Change RenderTarget to this from the default
             GraphicsDevice.SetRenderTarget(renderTarget);
@@ -527,6 +541,7 @@ namespace Adam
             switch (CurrentGameState)
             {
                 case GameState.GameWorld:
+                    //lighting
                     SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, null, null,
                         null);
                     SpriteBatch.Draw(ContentHelper.LoadTexture("Tiles/max_shadow"),
@@ -591,35 +606,18 @@ namespace Adam
                         else Overlay.CornerColor = Color.White;
                     }
 
-                    //Draw the rendertarget
+                    // Draw the main game rendertarget.
                     SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
                         DepthStencilState.None, RasterizerState.CullNone);
                     SpriteBatch.Draw(_mainRenderTarget, new Rectangle(0, 0, UserResWidth, UserResHeight), Color.White);
                     SpriteBatch.End();
-
-                    if (HasLighting)
-                    {
-                        SpriteBatch.Begin(SpriteSortMode.Immediate, _lightBlendState,
-                            GameData.Settings.DesiredSamplerState, DepthStencilState.None, RasterizerState.CullNone);
-                        SpriteBatch.Draw(_lightingRenderTarget, new Rectangle(0, 0, UserResWidth, UserResHeight),
-                            Color.White);
-                        SpriteBatch.End();
-                    }
-
-                    var rs = new RasterizerState { ScissorTestEnable = true };
-                    SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
-                        DepthStencilState.None, rs);
-                    _overlay.Draw(SpriteBatch);
-
-                    if (!_gameWorld.LevelEditor.OnInventory)
-                        ObjectiveTracker.Draw(SpriteBatch);
-
-                    _gameWorld.DrawUi(SpriteBatch);
-                    Dialog.Draw(SpriteBatch);
-                    TextInputBox.Draw(SpriteBatch);
-                    MessageBox.Draw(SpriteBatch);
-
-                    SpriteBatch.End();
+                    //SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp,
+                    //    DepthStencilState.None, RasterizerState.CullNone);
+                    ////Color[] colors = new Color[_mainRenderTarget.Width * _mainRenderTarget.Height];
+                    ////_previousSceneRenderTarget = new Texture2D(GraphicsDevice, _mainRenderTarget.Width, _mainRenderTarget.Height);
+                    ////_mainRenderTarget.GetData<Color>(colors);
+                    ////_previousSceneRenderTarget.SetData(colors);
+                    //SpriteBatch.End();
 
                     break;
             }
