@@ -16,7 +16,7 @@ namespace Adam.UI
         {
             ActiveX = (int)((Main.DefaultResWidth - Width) / Main.WidthRatio);
             // inactiveX = (int)((Game1.DefaultResWidth + 400) / Game1.WidthRatio);
-            InactiveX = Main.UserResWidth + 400;
+            InactiveX = Main.DefaultResWidth + 400;
 
             Box = new Rectangle(ActiveX, 0, (int)(Width / Main.WidthRatio), (int)(Main.DefaultResHeight / Main.HeightRatio));
             Initialize();

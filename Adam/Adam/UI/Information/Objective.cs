@@ -30,8 +30,8 @@ namespace Adam.UI.Information
             _texture = ContentHelper.LoadTexture("Tiles/white");
             _textFont = ContentHelper.LoadFont("Fonts/x32");
             _headFont = ContentHelper.LoadFont("Fonts/x64");
-            _drawRectangle = new Rectangle(Main.UserResWidth, 0, 300, 125);
-            _goalX = Main.UserResWidth - _drawRectangle.Width;
+            _drawRectangle = new Rectangle(Main.DefaultResWidth, 0, 300, 125);
+            _goalX = Main.DefaultResWidth - _drawRectangle.Width;
         }
 
         public void Create(string text, int id)
@@ -72,9 +72,9 @@ namespace Adam.UI.Information
 
                     if (_lifespan > 2)
                     {
-                        int completeX = Main.UserResWidth + 100;
+                        int completeX = Main.DefaultResWidth + 100;
                         _drawRectangle.X += (completeX - _drawRectangle.X) / 10;
-                        if (_drawRectangle.X >= Main.UserResWidth)
+                        if (_drawRectangle.X >= Main.DefaultResWidth)
                             IsActive = false;
                     }
                     else

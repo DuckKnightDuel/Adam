@@ -23,7 +23,7 @@ namespace Adam.UI.Elements
             MouseOut += OnMouseOut;
             CollRectangle = new Rectangle(0, 0, (int)(Main.Tilesize / Main.WidthRatio), (int)(Main.Tilesize / Main.HeightRatio));
             SourceRectangle = new Rectangle(0, 0, 16, 16);
-            _font = ContentHelper.LoadFont("Fonts/x32");
+            _font = ContentHelper.LoadFont("Fonts/LuckiestGuyOutline");
         }
 
         public void Update(Rectangle box)

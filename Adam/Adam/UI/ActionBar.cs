@@ -35,7 +35,7 @@ namespace Adam.UI
             _box.X -= _box.Width / 2;
             _box.Y -= _box.Height;
             _originalY = _box.Y;
-            _box.Y = Main.UserResHeight + 300;
+            _box.Y = Main.DefaultResHeight + 300;
 
             _playButton = new PlayButton(new Vector2(12 + 64, 4), _box);
            
@@ -135,7 +135,7 @@ namespace Adam.UI
             }
             else
             {
-                int hidingPlace = Main.UserResHeight + 200;
+                int hidingPlace = Main.DefaultResHeight + 200;
                 _velocityY += .3f;
                 if (_box.Y > hidingPlace)
                 {

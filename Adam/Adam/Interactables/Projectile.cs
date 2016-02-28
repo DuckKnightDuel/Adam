@@ -123,8 +123,8 @@ namespace Adam
         //            //light.SetColor(Color.Red);
 
         //            MouseState mouse = Mouse.GetState();
-        //            Vector2 center = new Vector2((Main.UserResWidth / 2) + (player.GetCollRectangle().Width / 2),
-        //                (Main.UserResHeight * 3 / 5) + (player.GetCollRectangle().Height / 2));
+        //            Vector2 center = new Vector2((Main.DefaultResWidth / 2) + (player.GetCollRectangle().Width / 2),
+        //                (Main.DefaultResHeight * 3 / 5) + (player.GetCollRectangle().Height / 2));
 
         //            //Find the unit vector according to where the mouse is
         //            double xDiff = (mouse.X - center.X);

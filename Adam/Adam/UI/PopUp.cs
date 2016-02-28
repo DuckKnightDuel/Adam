@@ -75,7 +75,7 @@ namespace Adam
         {
             this._content = content;
 
-            Vector2 monitorResolution = new Vector2(Main.UserResWidth, Main.UserResHeight);
+            Vector2 monitorResolution = new Vector2(Main.DefaultResWidth, Main.DefaultResHeight);
             _dialogRect = new Rectangle((int)monitorResolution.X / 2, (int)monitorResolution.Y * 4 / 5, (int)monitorResolution.X * 2 / 3, (int)monitorResolution.Y * 1 / 6);
 
             _fill = ContentHelper.LoadTexture("Menu/Star Fill");

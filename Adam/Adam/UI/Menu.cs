@@ -332,7 +332,7 @@ namespace Adam
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(background,new Rectangle(0,0,Main.UserResWidth,Main.UserResHeight),Color.White);
+            spriteBatch.Draw(background,new Rectangle(0,0,Main.DefaultResWidth,Main.DefaultResHeight),Color.White);
 
             FontHelper.DrawWithOutline(spriteBatch,_font32,Main.Producers,new Vector2((float)(5 / Main.WidthRatio), (float)(5 / Main.HeightRatio)),3,Color.White,Color.Black);
             FontHelper.DrawWithOutline(spriteBatch, _font32, Main.Version, new Vector2((float)(5 / Main.WidthRatio), (float)(30 / Main.HeightRatio)), 3, Color.White, Color.Black);

@@ -22,7 +22,7 @@ namespace Adam.UI.Overlay_Elements
         public Hourglass(Vector2 position)
         {
             _texture = ContentHelper.LoadTexture("Menu/timer");
-            _drawRectangle = new Rectangle(Main.UserResWidth * 9 / 12, Main.UserResHeight * 1 / 12, 64, _texture.Height);
+            _drawRectangle = new Rectangle(Main.DefaultResWidth * 9 / 12, Main.DefaultResHeight * 1 / 12, 64, _texture.Height);
             _sourceRectangle = new Rectangle(0, 0, 64, 64);
             _origin = new Vector2(32, 32);
             _drawRectangle.X += (int)_origin.X;

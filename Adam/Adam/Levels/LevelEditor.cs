@@ -464,7 +464,7 @@ namespace Adam.Levels
                 FontHelper.DrawWithOutline(spriteBatch, ContentHelper.LoadFont("Fonts/x32"), "On Wall Mode: " + OnWallMode, new Vector2(5, 5), 2, Color.Yellow, Color.Black);
 
             _miniMap.Draw(spriteBatch);
-            spriteBatch.Draw(ContentHelper.LoadTexture("Tiles/black"), new Rectangle(0, 0, Main.UserResWidth, Main.UserResHeight), Color.White * _blackScreenOpacity);
+            spriteBatch.Draw(ContentHelper.LoadTexture("Tiles/black"), new Rectangle(0, 0, Main.DefaultResWidth, Main.DefaultResHeight), Color.White * _blackScreenOpacity);
             _tileDescription.Draw(spriteBatch);
             _tileScroll.Draw(spriteBatch);
             _entityScroll.Draw(spriteBatch);

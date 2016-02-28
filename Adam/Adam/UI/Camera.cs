@@ -40,7 +40,7 @@ namespace Adam
         {
             _viewport = newViewport;
             _defRes = new Vector2(Main.DefaultResWidth,Main.DefaultResHeight);
-            _prefRes = new Vector2(Main.UserResWidth, Main.UserResHeight) ;
+            _prefRes = new Vector2(Main.DefaultResWidth, Main.DefaultResHeight) ;
             Velocity = new Vector3(0, 0, 0);
             TileIndex = 100;
         }

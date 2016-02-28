@@ -26,7 +26,7 @@ namespace Adam.UI
             _texture = new Texture2D(Main.GraphicsDeviceInstance, GameWorld.Instance.WorldData.LevelWidth, GameWorld.Instance.WorldData.LevelHeight);
             _antiTexture = new Texture2D(Main.GraphicsDeviceInstance, GameWorld.Instance.WorldData.LevelWidth, GameWorld.Instance.WorldData.LevelHeight);
             _pixels = new Color[_texture.Width * _texture.Height];
-            _rectangle = new Rectangle(Main.UserResWidth - _texture.Width, Main.UserResHeight - _texture.Height, _texture.Width, _texture.Height);
+            _rectangle = new Rectangle(Main.DefaultResWidth - _texture.Width, Main.DefaultResHeight - _texture.Height, _texture.Width, _texture.Height);
         }
 
         /// <summary>

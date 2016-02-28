@@ -65,7 +65,7 @@ namespace Adam.UI
             {
                 int width = 60 * 10;
                 int height = 20 * 10;
-                return new Rectangle(Main.UserResWidth / 2 - width / 2, Main.UserResHeight / 2 - height / 2, width, height);
+                return new Rectangle(Main.DefaultResWidth / 2 - width / 2, Main.DefaultResHeight / 2 - height / 2, width, height);
             }
         }
 
@@ -118,7 +118,7 @@ namespace Adam.UI
         {
             if (IsActive)
             {
-                spriteBatch.Draw(ContentHelper.LoadTexture("Tiles/white"), new Rectangle(0, 0, Main.UserResWidth, Main.UserResHeight), Color.Black * .7f);
+                spriteBatch.Draw(ContentHelper.LoadTexture("Tiles/white"), new Rectangle(0, 0, Main.DefaultResWidth, Main.DefaultResHeight), Color.Black * .7f);
                 spriteBatch.Draw(Texture, DrawRectangle, SourceRectangle, Color.White);
                 spriteBatch.DrawString(Font, Message, new Vector2(DrawRectangle.X + BezelSize, DrawRectangle.Y + BezelSize), Color.Black);
                 Button.Draw(spriteBatch);

@@ -23,7 +23,7 @@ namespace Adam.UI
         {
             _texture = ContentHelper.LoadTexture("Tiles/black");
             _font = ContentHelper.LoadFont("Fonts/x64");
-            _drawRectangle = new Rectangle(0, Main.UserResHeight - 180, Main.UserResWidth, 105);
+            _drawRectangle = new Rectangle(0, Main.DefaultResHeight - 180, Main.DefaultResWidth, 105);
         }
 
         public void Show(string text)
@@ -32,7 +32,7 @@ namespace Adam.UI
             if (text == null) return;
             _isActive = true;
             _timer = 0;
-            _textPos = new Vector2(Main.UserResWidth - _font.MeasureString(text).X - 30, _drawRectangle.Y);
+            _textPos = new Vector2(Main.DefaultResWidth - _font.MeasureString(text).X - 30, _drawRectangle.Y);
             _original = _textPos;
             _textPos.X += _font.MeasureString(text).X / 2;
         }

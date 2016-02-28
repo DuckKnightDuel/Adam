@@ -44,14 +44,14 @@ namespace Adam.UI.Information
         public Dialog()
         {
             _dialogBoxTexture = GameWorld.SpriteSheet;
-            _nonPlayerDialogBox = new Rectangle(Main.UserResWidth/2, 40, 600, 200);
+            _nonPlayerDialogBox = new Rectangle(Main.DefaultResWidth/2, 40, 600, 200);
             _dialogBoxSourceRectangle = new Rectangle(16*16, 14*16, 16*3, 16);
 
             var origin = new Vector2(_nonPlayerDialogBox.Width/2f, _nonPlayerDialogBox.Height/2f);
             _nonPlayerDialogBox.X -= (int) origin.X;
 
             _playerDialogBox = _nonPlayerDialogBox;
-            _playerDialogBox.Y = Main.UserResHeight - 40 - _playerDialogBox.Height;
+            _playerDialogBox.Y = Main.DefaultResHeight - 40 - _playerDialogBox.Height;
 
             _font = ContentHelper.LoadFont("Fonts/x24");
             _popSound = new SoundFx("Sounds/message_show");

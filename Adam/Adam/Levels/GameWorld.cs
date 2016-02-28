@@ -126,7 +126,7 @@ namespace Adam.Levels
             int maxClouds = width / 100;
             for (int i = 0; i < maxClouds; i++)
             {
-                CloudList.Add(new Cloud(new Vector2(Main.UserResWidth, Main.UserResHeight), maxClouds, i));
+                CloudList.Add(new Cloud(new Vector2(Main.DefaultResWidth, Main.DefaultResHeight), maxClouds, i));
             }
 
             TileArray = new Tile[tileIDs.Length];

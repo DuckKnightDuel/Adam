@@ -66,8 +66,8 @@ namespace Adam
         // Rendering variables.
         public static SpriteBatch SpriteBatch;
         public static bool IsLoadingContent;
-        public static int UserResWidth;
-        public static int UserResHeight;
+        private static int UserResWidth;
+        private static int UserResHeight;
         public static Texture2D DefaultTexture;
         public static Dialog Dialog;
         public static GameTime GameTime;
@@ -137,8 +137,10 @@ namespace Adam
             }
 #pragma warning restore 0162
 
-            WidthRatio = (DefaultResWidth / (double)UserResWidth);
-            HeightRatio = (DefaultResHeight / (double)UserResHeight);
+            //WidthRatio = (DefaultResWidth / (double)UserResWidth);
+            //HeightRatio = (DefaultResHeight / (double)UserResHeight);
+            WidthRatio = 1;
+            HeightRatio = 1;
 
             // Important services that need to be instanstiated before other things.
             _graphics = new GraphicsDeviceManager(this);
@@ -443,10 +445,10 @@ namespace Adam
             switch (CurrentGameState)
             {
                 case GameState.GameWorld:
-                    if (HasLighting)
-                    {
-                        DrawLightingRenderTarget(_lightingRenderTarget);
-                    }
+                    //if (HasLighting)
+                    //{
+                    //    DrawLightingRenderTarget(_lightingRenderTarget);
+                    //}
 
                     DrawMainRenderTarget(_mainRenderTarget);
                     break;
@@ -474,6 +476,23 @@ namespace Adam
                     _cutscene.Draw(SpriteBatch);
                     SpriteBatch.End();
                     break;
+                case GameState.MainMenu:
+                    var rs2 = new RasterizerState { ScissorTestEnable = true };
+                    SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
+                        DepthStencilState.None, rs2);
+                    _menu.Draw(SpriteBatch);
+                    TextInputBox.Draw(SpriteBatch);
+                    MessageBox.Draw(SpriteBatch);
+                    SpriteBatch.End();
+                    break;
+                case GameState.LoadingScreen:
+
+                    SpriteBatch.Begin();
+                    _loadingScreen.Draw(SpriteBatch);
+                    TextInputBox.Draw(SpriteBatch);
+                    MessageBox.Draw(SpriteBatch);
+                    SpriteBatch.End();
+                    break;
                 case GameState.GameWorld:
                     if (IsLoadingContent)
                         break;
@@ -492,19 +511,19 @@ namespace Adam
                     _gameWorld.DrawParticles(SpriteBatch);
                     SpriteBatch.End();
 
-                    if (HasLighting)
-                    {
-                        SpriteBatch.Begin(SpriteSortMode.Deferred, _lightBlendState,
-                            GameData.Settings.DesiredSamplerState, DepthStencilState.None, RasterizerState.CullNone);
-                        SpriteBatch.Draw(_lightingRenderTarget, new Rectangle(0, 0, DefaultResWidth, DefaultResHeight),
-                            Color.White);
-                        SpriteBatch.End();
+                    //if (HasLighting)
+                    //{
+                    //    SpriteBatch.Begin(SpriteSortMode.Deferred, _lightBlendState,
+                    //        GameData.Settings.DesiredSamplerState, DepthStencilState.None, RasterizerState.CullNone);
+                    //    SpriteBatch.Draw(_lightingRenderTarget, new Rectangle(0, 0, DefaultResWidth, DefaultResHeight),
+                    //        Color.White);
+                    //    SpriteBatch.End();
 
-                        //SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, null, null,
-                        //null, Camera.Translate);
-                        //_gameWorld.DrawLights(SpriteBatch);
-                        //SpriteBatch.End();
-                    }
+                    //    //SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, null, null,
+                    //    //null, Camera.Translate);
+                    //    //_gameWorld.DrawLights(SpriteBatch);
+                    //    //SpriteBatch.End();
+                    //}
 
                     SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, null, null,
                         null, Camera.Translate);
@@ -581,20 +600,20 @@ namespace Adam
                     SpriteBatch.End();
                     break;
                 case GameState.LoadingScreen:
-                    SpriteBatch.Begin();
-                    _loadingScreen.Draw(SpriteBatch);
-                    TextInputBox.Draw(SpriteBatch);
-                    MessageBox.Draw(SpriteBatch);
+                    // Draw the main game rendertarget.
+                    SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
+                        DepthStencilState.None, RasterizerState.CullNone);
+                    SpriteBatch.Draw(_mainRenderTarget, new Rectangle(0, 0, UserResWidth, UserResHeight), Color.White);
                     SpriteBatch.End();
+
                     break;
                 case GameState.MainMenu:
-                    var rs2 = new RasterizerState { ScissorTestEnable = true };
-                    SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
-                        DepthStencilState.None, rs2);
-                    _menu.Draw(SpriteBatch);
-                    TextInputBox.Draw(SpriteBatch);
-                    MessageBox.Draw(SpriteBatch);
+                    // Draw the main game rendertarget.
+                    SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
+                        DepthStencilState.None, RasterizerState.CullNone);
+                    SpriteBatch.Draw(_mainRenderTarget, new Rectangle(0, 0, UserResWidth, UserResHeight), Color.White);
                     SpriteBatch.End();
+
                     break;
                 case GameState.GameWorld:
 

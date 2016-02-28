@@ -52,7 +52,7 @@ namespace Adam.UI
             int widthOfBounds = (int)(600 / Main.WidthRatio);
             int heightOfBounds = (int)(300 / Main.HeightRatio);
             _boundsTexture = ContentHelper.LoadTexture("Tiles/ui_spritemap");
-            _boundsDrawRectangle = new Rectangle(Main.UserResWidth / 2, Main.UserResHeight / 2, widthOfBounds, heightOfBounds);
+            _boundsDrawRectangle = new Rectangle(Main.DefaultResWidth / 2, Main.DefaultResHeight / 2, widthOfBounds, heightOfBounds);
             _boundsDrawRectangle.X -= widthOfBounds / 2;
             _boundsDrawRectangle.Y -= heightOfBounds / 2;
             _boundsSourceRectangle = new Rectangle(376, 48, 300, 150);
@@ -87,10 +87,13 @@ namespace Adam.UI
             _newButton.MouseClicked += NewButton_MouseClicked;
             _backButton.MouseClicked += BackButton_MouseClicked;
 
-            // Define the spritefont for the "Select Level" header and its position.
+            // Define the sprite
+
+
+            // for the "Select Level" header and its position.
             _headerFont = ContentHelper.LoadFont("Fonts/x64");
             _headerText = "Select a Level:";
-            _headerPos = new Vector2(Main.UserResWidth / 2 - _headerFont.MeasureString(_headerText).X / 2, _scissorRectangle.Y - _headerFont.LineSpacing - CalcHelper.ApplyHeightRatio(10));
+            _headerPos = new Vector2(Main.DefaultResWidth / 2 - _headerFont.MeasureString(_headerText).X / 2, _scissorRectangle.Y - _headerFont.LineSpacing - CalcHelper.ApplyHeightRatio(10));
         }
 
         private void NewButton_MouseClicked()
@@ -283,7 +286,7 @@ namespace Adam.UI
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ContentHelper.LoadTexture("Tiles/white"), new Rectangle(0, 0, Main.UserResWidth, Main.UserResHeight), Color.Black * .7f);
+            spriteBatch.Draw(ContentHelper.LoadTexture("Tiles/white"), new Rectangle(0, 0, Main.DefaultResWidth, Main.DefaultResHeight), Color.Black * .7f);
             spriteBatch.Draw(_boundsTexture, _boundsDrawRectangle, _boundsSourceRectangle, Color.White);
 
             // Sets the scrolling levels to disappear if they are not inside of this bounding box.

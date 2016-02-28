@@ -15,7 +15,7 @@ namespace Adam.UI
     {
         protected bool IsActive;
         protected Rectangle Box;
-        protected int MaxHeight = Main.UserResHeight;
+        protected int MaxHeight = Main.DefaultResHeight;
         protected List<Tile> Tiles = new List<Tile>();
         protected List<TileName> Names = new List<TileName>();
         protected SpriteFont Font;
@@ -175,7 +175,7 @@ namespace Adam.UI
             {
                 VelocityY = -1;
             }
-            if (Tiles[Tiles.Count - 1].DrawRectangle.Y + Tiles[Tiles.Count - 1].DrawRectangle.Height< Main.UserResHeight)
+            if (Tiles[Tiles.Count - 1].DrawRectangle.Y + Tiles[Tiles.Count - 1].DrawRectangle.Height< Main.DefaultResHeight)
             {
                 VelocityY = 1;
             }
